@@ -5,12 +5,31 @@ import {
   useCallback,
 } from 'react';
 
+import { IconType } from 'react-icons';
+
 import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
-const Input = ({ name, icon: Icon, ...rest }) => {
-  const inputRef = useRef(null);
+interface Event {
+  target: {
+    value: any;
+  }
+}
+
+interface InputProps {
+  name: string;
+  icon?: IconType;
+  placeholder: string;
+  onChange: (event: Event) => void;
+}
+
+interface InputRef {
+  value: string;
+}
+
+export function Input({ name, icon: Icon, ...rest }: InputProps) {
+  const inputRef = useRef<InputRef>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -43,11 +62,8 @@ const Input = ({ name, icon: Icon, ...rest }) => {
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
-        ref={inputRef}
         {...rest}
       />
     </Container>
   );
-};
-
-export default Input;
+}
